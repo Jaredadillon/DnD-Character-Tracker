@@ -1,0 +1,109 @@
+﻿@model dnd.ViewModels.CharacterFormViewModel
+
+@{
+    ViewBag.Title = "CharacterForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Character Info</h2>
+
+<style>
+    #Character_Copper,
+    #Character_Silver,
+    #Character_Gold{
+        max-width: 120px;
+    }
+</style>
+
+@using (Html.BeginForm("Save", "Character"))
+{
+    <hr />
+    <div class="form-group">
+        <!--Name block-->
+        @Html.Label("Names")<br />
+        @Html.TextBoxFor(m => m.Character.CharacterName, new { @class = "form-control", placeholder = "Character Name" })
+        @Html.ValidationMessageFor(m => m.Character.CharacterName)<br />
+        @Html.TextBoxFor(m => m.Character.PlayerName, new { @class = "form-control", placeholder = "Player Name" })
+        @Html.ValidationMessageFor(m => m.Character.PlayerName)<hr />
+
+        <!--Stat block-->
+        @Html.Label("Stats")<br />
+        @Html.LabelFor(m => m.Character.Level)
+        @Html.TextBoxFor(m => m.Character.Level, "{0:#.#}", new { @class = "form-control", placeholder = "0 - 20", @type = "number" })
+        @Html.ValidationMessageFor(m => m.Character.Level)<br />
+
+        @Html.LabelFor(m => m.Character.Strength)
+        @Html.TextBoxFor(m => m.Character.Strength, "{0:#.#}", new { @class = "form-control", placeholder = "0 - 20", @type = "number" })<br />
+
+        @Html.LabelFor(m => m.Character.Dexterity)
+        @Html.TextBoxFor(m => m.Character.Dexterity, "{0:#.#}", new { @class = "form-control", placeholder = "0 - 20", @type = "number" })<br />
+
+        @Html.LabelFor(m => m.Character.Constitution)
+        @Html.TextBoxFor(m => m.Character.Constitution, "{0:#.#}", new { @class = "form-control", placeholder = "0 - 20", @type = "number" })<br />
+
+        @Html.LabelFor(m => m.Character.Intelligence)
+        @Html.TextBoxFor(m => m.Character.Intelligence, "{0:#.#}", new { @class = "form-control", placeholder = "0 - 20", @type = "number" })<br />
+
+        @Html.LabelFor(m => m.Character.Wisdom)
+        @Html.TextBoxFor(m => m.Character.Wisdom, "{0:#.#}", new { @class = "form-control", placeholder = "0 - 20", @type = "number" })<br />
+
+        @Html.LabelFor(m => m.Character.Charisma)
+        @Html.TextBoxFor(m => m.Character.Charisma, "{0:#.#}", new { @class = "form-control", placeholder = "0 - 20", @type = "number" })
+        <hr />
+
+        <!--Armor block-->
+        @Html.LabelFor(m => m.Character.ArmorId)
+        @Html.DropDownListFor(m => m.Character.ArmorId, new SelectList(Model.Armors, "Id", "Name"), "Select Armor", new { @class = "form-control" })
+        <br />
+        <div class="checkbox">
+            <label>
+                @Html.CheckBoxFor(m => m.Character.Shield) Shield Equipped?
+            </label>
+        </div>
+        <hr />
+
+        <!--Money-->
+        @Html.Label("Money")
+        <div class="row">
+            <div class="col-md-2">
+                @Html.TextBoxFor(m => m.Character.Copper, "{0:#.#}", new { @class = "form-control", placeholder = "CP", @type = "number" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(m => m.Character.Silver, "{0:#.#}", new { @class = "form-control", placeholder = "SP", @type = "number" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(m => m.Character.Gold, "{0:#.#}", new { @class = "form-control", placeholder = "GP", @type = "number" })
+            </div>
+        </div>
+        <hr />
+
+        <!--Demographic block-->
+        @Html.Label("Demographics")<br />
+        @Html.LabelFor(m => m.Character.PlayerClassId)
+        @Html.DropDownListFor(m => m.Character.PlayerClassId, new SelectList(Model.PlayerClasses, "Id", "Name"), "Select Class", new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(m => m.Character.PlayerRaceId)
+        @Html.DropDownListFor(m => m.Character.PlayerRaceId, new SelectList(Model.PlayerRaces, "Id", "Name"), "Select Race", new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(m => m.Character.AlignmentId)
+        @Html.DropDownListFor(m => m.Character.AlignmentId, new SelectList(Model.Alignments, "Id", "Name"), "Select Alignment", new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(m => m.Character.Background)
+        @Html.TextBoxFor(m => m.Character.Background, new { @class = "form-control", placeholder = "Background" })
+        <hr />
+
+        <!--Notes block-->
+        @Html.Label("Notes")
+        @Html.TextAreaFor(m => m.Character.Notes, new { @class = "form-control", rows = "10", placeholder = "Character notes, traits, bonds, etc." })
+    </div>
+    <hr />
+
+    @Html.HiddenFor(m => m.Character.Id);
+    @Html.AntiForgeryToken();
+
+    <button type="submit" class="btn btn-info">Save</button>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/libs")
+}
